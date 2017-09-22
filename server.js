@@ -8,7 +8,22 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 var cors = require('cors');
  
 // Configuration
-mongoose.connect('mongodb://localhost/property');
+// mongoose.connect('mongodb://localhost/property');
+
+var url = process.env.MONGOLAB_URI;
+// Use connect method to connect to the Server
+MongoClient.connect(url, function (err, db) {
+    if (err) {
+      console.log('Unable to connect to the mongoDB server. Error:', err);
+    } else {
+      console.log('Connection established to', url);
+  
+      // do some work here with the database.
+  
+      //Close connection
+      db.close();
+    }
+  });
  
 app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
@@ -19,7 +34,7 @@ app.use(cors());
  
 app.use(function(req, res, next) {
    res.header("Access-Control-Allow-Origin", "*");
-   res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
+   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
    next();
 });
