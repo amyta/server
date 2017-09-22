@@ -6,23 +6,15 @@ var morgan = require('morgan');             // log requests to the console (expr
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 var cors = require('cors');
- 
+
 // Configuration
 // mongoose.connect('mongodb://localhost/property');
 
 var url = 'mongodb://amy:property2017@ds147274.mlab.com:47274/property';
 // Use connect method to connect to the Server
-MongoClient.connect(url, function (err, db) {
-    if (err) {
-      console.log('Unable to connect to the mongoDB server. Error:', err);
-    } else {
-      console.log('Connection established to', url);
-  
-      // do some work here with the database.
-  
-      //Close connection
-      db.close();
-    }
+mongoose.connect(url, function (error) {
+    if (error) console.error(error);
+    else console.log('mongo connected');
   });
  
 app.use(morgan('dev'));                                         // log every request to the console
